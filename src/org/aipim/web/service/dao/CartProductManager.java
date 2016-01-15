@@ -45,6 +45,14 @@ public class CartProductManager {
             e.printStackTrace();
             logger.error(e.toString());
         }
+    	finally {
+			if (this.connection != null) {
+				try {
+					this.connection.close();
+				} catch (Exception e) {
+					/* handle close exception, quite usually ignore */ }
+			}
+		}
     	return inserted;
     }
     
@@ -63,9 +71,17 @@ public class CartProductManager {
             e.printStackTrace();
             logger.error(e.toString());
         }
+        finally {
+			if (this.connection != null) {
+				try {
+					this.connection.close();
+				} catch (Exception e) {
+					/* handle close exception, quite usually ignore */ }
+			}
+		}
     }
     
-    public ArrayList<CartProduct> getCartProductsByCartUid(int cartUid) {
+    public ArrayList<CartProduct> getCartProductsByCartUid(int cartUid) throws Exception {
     	ArrayList<CartProduct> cartProducts = new ArrayList<CartProduct>();
         try {
             PreparedStatement preparedStatement = connection
@@ -82,10 +98,19 @@ public class CartProductManager {
             e.printStackTrace();
             logger.error(e.toString());
         }
+        finally {
+			if (this.connection != null) {
+				try {
+					this.connection.close();
+				} catch (Exception e) {
+					/* handle close exception, quite usually ignore */ }
+			}
+		}
+        
         return cartProducts;
     }
     
-    public boolean setCartProductResult(final CartProduct cartProduct, final ResultSet resultSet) {
+    public boolean setCartProductResult(final CartProduct cartProduct, final ResultSet resultSet) throws Exception {
         try {
         	cartProduct.setCartUid(resultSet.getInt("cart_uid"));
         	cartProduct.setProductUid(resultSet.getInt("product_uid"));
@@ -94,11 +119,14 @@ public class CartProductManager {
         	cartProduct.setPriceSave(resultSet.getDouble("price_save"));
         	cartProduct.setShipPrice(resultSet.getDouble("ship_price"));
         	cartProduct.setShipCode(resultSet.getString("ship_code"));
-            return true;
+            
         } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.toString());
+            
+            throw e;
         }
-        return false;
+        
+        return true;
     }
 }

@@ -101,7 +101,8 @@ public class DefaultModel extends BaseModel {
         return this.owner;
     }
     
-    public String getStringAttr(String key) {
+    @Override
+	public String getStringAttr(String key) {
         return super.getStringAttr(key);
     }
 

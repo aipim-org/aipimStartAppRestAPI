@@ -171,6 +171,7 @@ public class Task extends DefaultModel {
 		setStaging(true);
 	}
 	
+	@Override
 	public HashMap<String, Object> getAttrs() {
 		return super.getAttrs();
 	}

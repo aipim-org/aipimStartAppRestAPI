@@ -109,43 +109,53 @@ public class Request extends BaseModel {
 		return (date != null ? dateFormat.format(date) : null);
 	}
     
-    public String getStringAttr(String key) {
+    @Override
+	public String getStringAttr(String key) {
         return super.getStringAttr(key);
     }
     
-    public void putStringAttr(String key, String value) {
+    @Override
+	public void putStringAttr(String key, String value) {
         super.putStringAttr(key, value);
     }
     
-    public boolean getBooleanAttr(String key) {
+    @Override
+	public boolean getBooleanAttr(String key) {
         return super.getBooleanAttr(key);
     }
     
-    public void putBooleanAttr(String key, boolean value) {
+    @Override
+	public void putBooleanAttr(String key, boolean value) {
         super.putBooleanAttr(key, value);
     }
     
-    public int getIntAttr(String key) {
+    @Override
+	public int getIntAttr(String key) {
         return super.getIntAttr(key);
     }
     
-    public void putIntAttr(String key, int value) {
+    @Override
+	public void putIntAttr(String key, int value) {
         super.putIntAttr(key, value);
     }
     
-    public long getLongAttr(String key) {
+    @Override
+	public long getLongAttr(String key) {
         return super.getLongAttr(key);
     }
     
-    public void putLongAttr(String key, long value) {
+    @Override
+	public void putLongAttr(String key, long value) {
         super.putLongAttr(key, value);
     }
     
-    public double getDoubleAttr(String key) {
+    @Override
+	public double getDoubleAttr(String key) {
         return super.getDoubleAttr(key);
     }
     
-    public void putDoubleAttr(String key, double value) {
+    @Override
+	public void putDoubleAttr(String key, double value) {
         super.putDoubleAttr(key, value);
     }
     

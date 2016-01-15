@@ -189,7 +189,15 @@ public class TaskManager {
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error(e.toString());
-        }
+        }finally {
+			if (this.connection != null) {
+				try {
+					this.connection.close();
+				} catch (Exception e) {
+					/* handle close exception, quite usually ignore */ }
+			}
+		}
+    	
         return task;
     }
     
@@ -207,6 +215,14 @@ public class TaskManager {
             e.printStackTrace();
             logger.error(e.toString());
         }
+        finally {
+			if (this.connection != null) {
+				try {
+					this.connection.close();
+				} catch (Exception e) {
+					/* handle close exception, quite usually ignore */ }
+			}
+		}
         return task;
     }
     
@@ -223,12 +239,20 @@ public class TaskManager {
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error(e.toString());
-        }
+        }finally {
+			if (this.connection != null) {
+				try {
+					this.connection.close();
+				} catch (Exception e) {
+					/* handle close exception, quite usually ignore */ }
+			}
+		}
         return task;
     }
     
     public boolean setTaskResult(final Task task, final ResultSet resultSet) {
-        try {
+        boolean done = false;
+    	try {
             task.setUid(resultSet.getLong("uid"));
             task.setToken(resultSet.getString("token"));
             task.setMessage(resultSet.getString("message"));
@@ -238,12 +262,13 @@ public class TaskManager {
             task.setStartTime(resultSet.getDate("start_time"));
             task.setEndTime(resultSet.getDate("end_time"));
             task.setArchived(resultSet.getInt("archived"));
-            return true;
+            done = true;
         } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.toString());
         }
-        return false;
+        
+        return done;
     }
     
 }

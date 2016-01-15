@@ -39,7 +39,15 @@ public class ProductManager {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			if (this.connection != null) {
+				try {
+					this.connection.close();
+				} catch (Exception e) {
+					/* handle close exception, quite usually ignore */ }
+			}
 		}
+		
 		return products;
 	}
 	
@@ -55,6 +63,13 @@ public class ProductManager {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			if (this.connection != null) {
+				try {
+					this.connection.close();
+				} catch (Exception e) {
+					/* handle close exception, quite usually ignore */ }
+			}
 		}
 		return product;
 	}
@@ -95,7 +110,15 @@ public class ProductManager {
 			inserted = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			if (this.connection != null) {
+				try {
+					this.connection.close();
+				} catch (Exception e) {
+					/* handle close exception, quite usually ignore */ }
+			}
 		}
+		
 		return inserted;
 	}
 
@@ -135,7 +158,15 @@ public class ProductManager {
 			updated = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			if (this.connection != null) {
+				try {
+					this.connection.close();
+				} catch (Exception e) {
+					/* handle close exception, quite usually ignore */ }
+			}
 		}
+		
 		return updated;
 	}
 
@@ -151,12 +182,21 @@ public class ProductManager {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			if (this.connection != null) {
+				try {
+					this.connection.close();
+				} catch (Exception e) {
+					/* handle close exception, quite usually ignore */ }
+			}
 		}
+		
 		return product;
 	}
 	
 	public boolean setProductResult(final Product product, final ResultSet resultSet) {
-        try {
+        boolean done = false;
+		try {
         	product.setUid(resultSet.getInt("uid"));
 			product.setUrl(resultSet.getString("url"));
 			product.setLabel(resultSet.getString("label"));
@@ -179,11 +219,13 @@ public class ProductManager {
 			product.setOwnerUid(resultSet.getInt("owner_uid"));
 			product.setCreatedAt(resultSet.getDate("created_at"));
 			product.setUpdatedAt(resultSet.getDate("updated_at"));
-            return true;
+            
+			done = true;
         } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.toString());
         }
-        return false;
+		
+        return done;
     }
 }

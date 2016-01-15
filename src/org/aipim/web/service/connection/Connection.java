@@ -64,4 +64,8 @@ public class Connection {
         }
         return connection;
     }
+    
+    public static void closeConnection() throws SQLException {
+    	Connection.getConnection().close();
+    }
 }

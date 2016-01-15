@@ -11,9 +11,11 @@ import java.security.SecureRandom;
 import java.util.HashMap;
 import org.aipim.web.service.domain.User;
 import org.apache.log4j.Logger;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.json.JSONArray;
 import org.json.JSONException;
+
+import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 public class UserUtil {
     private final static Logger logger = Logger.getLogger(UserUtil.class);
@@ -93,7 +95,7 @@ public class UserUtil {
             byte[] encryptedPasswordBytes = digest.digest(password.getBytes("UTF-8"));
             
             //String encryptedPassword = Base64.getEncoder().encodeToString(encryptedPasswordBytes); java.util.Base64
-            String encryptedPassword = Base64.encodeBase64String(encryptedPasswordBytes);
+            String encryptedPassword = Base64.encode(encryptedPasswordBytes);
             int endIndex = (encryptedPassword.length() <= 80 ? encryptedPassword.length() : 80);
             encryptedPassword = encryptedPassword.substring(0, endIndex);
             checked = (spass.compareTo(encryptedPassword) == 0);
@@ -127,7 +129,7 @@ public class UserUtil {
              digest.update(salt.getBytes("UTF-8"));
              byte[] encryptedPasswordBytes = digest.digest(password.getBytes("UTF-8"));
              //String encryptedPassword = Base64.getEncoder().encodeToString(encryptedPasswordBytes);
-             String encryptedPassword = Base64.encodeBase64String(encryptedPasswordBytes);
+             String encryptedPassword = Base64.encode(encryptedPasswordBytes);
              endIndex = (encryptedPassword.length() <= 80 ? encryptedPassword.length() : 80);
              encryptedPassword = encryptedPassword.substring(0, endIndex);
              hash.put("password", encryptedPassword);	
@@ -148,7 +150,7 @@ public class UserUtil {
     	  String result = null;
     	  try {
     		  byte[] uniqueIdBytes = uniqueId.getBytes("UTF-8");
-              result = Base64.encodeBase64String(uniqueIdBytes);
+              result = Base64.encode(uniqueIdBytes);
           } catch (UnsupportedEncodingException e) {
               e.printStackTrace();
           }
@@ -159,15 +161,16 @@ public class UserUtil {
        * Get Saved File Url
        * @param encodedImages
        * returns saved url
+     * @throws Base64DecodingException 
        */
-       public static String getSavedFileUrl(String encodedImages, String uniqueIdDir, String _appToken, boolean _staging) {
+       public static String getSavedFileUrl(String encodedImages, String uniqueIdDir, String _appToken, boolean _staging) throws Base64DecodingException {
      	  String savedUrl = null;
            JSONArray array = null;
            try { array = new JSONArray(encodedImages); } catch (JSONException e) { e.printStackTrace(); }
            if (array != null) {
          	  for (int i = 0; i < array.length(); i++) {
          		  String encodedImage = array.optString(i);
-         		  byte[] jpegImage = Base64.decodeBase64(encodedImage);
+         		  byte[] jpegImage = Base64.decode(encodedImage);
          		  // begin - save file
          		  String path = getBaseAssetsPathFromConfigProperties(_appToken, _staging);
          		  savedUrl = getBaseAssetsUrlFromConfigProperties(_appToken, _staging);

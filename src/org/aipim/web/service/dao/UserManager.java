@@ -90,7 +90,14 @@ public class UserManager {
             } catch (SQLException e) {
                 e.printStackTrace();
                 logger.error(e.toString());
-            }
+            }finally {
+    			if (this.connection != null) {
+    				try {
+    					this.connection.close();
+    				} catch (Exception e) {
+    					/* handle close exception, quite usually ignore */ }
+    			}
+    		}
         }
         return changed;
     }
@@ -118,7 +125,15 @@ public class UserManager {
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error(e.toString());
-        }
+        }finally {
+			if (this.connection != null) {
+				try {
+					this.connection.close();
+				} catch (Exception e) {
+					/* handle close exception, quite usually ignore */ }
+			}
+		}
+    	
     	return inserted;
     }
     
@@ -152,7 +167,14 @@ public class UserManager {
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error(e.toString());
-        }
+        }finally {
+			if (this.connection != null) {
+				try {
+					this.connection.close();
+				} catch (Exception e) {
+					/* handle close exception, quite usually ignore */ }
+			}
+		}
     }
     
     public User getUserByUniqueId(String uniqueId) {
@@ -169,7 +191,15 @@ public class UserManager {
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error(e.toString());
-        }
+        }finally {
+			if (this.connection != null) {
+				try {
+					this.connection.close();
+				} catch (Exception e) {
+					/* handle close exception, quite usually ignore */ }
+			}
+		}
+        
         return user;
     }
     
@@ -189,7 +219,14 @@ public class UserManager {
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error(e.toString());
-        }
+        }finally {
+			if (this.connection != null) {
+				try {
+					this.connection.close();
+				} catch (Exception e) {
+					/* handle close exception, quite usually ignore */ }
+			}
+		}
 
         return users;
     }
@@ -211,6 +248,15 @@ public class UserManager {
             e.printStackTrace();
             logger.error(e.toString());
         }
+        finally {
+			if (this.connection != null) {
+				try {
+					this.connection.close();
+				} catch (Exception e) {
+					/* handle close exception, quite usually ignore */ }
+			}
+		}
+        
         return users;
     }
     
@@ -230,12 +276,21 @@ public class UserManager {
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error(e.toString());
-        }
+        }finally {
+			if (this.connection != null) {
+				try {
+					this.connection.close();
+				} catch (Exception e) {
+					/* handle close exception, quite usually ignore */ }
+			}
+		}
+        
         return users;
     }
     
     public boolean setUserResult(final User user, final ResultSet resultSet) {
-        try {
+    	boolean done = false;
+    	try {
         	user.setUid(resultSet.getInt("uid"));
             user.setUrl(resultSet.getString("url"));
             user.setUniqueId(resultSet.getString("unique_id"));
@@ -255,11 +310,12 @@ public class UserManager {
             user.setOwnerUid(resultSet.getInt("owner_uid"));
             user.setCreatedAt(resultSet.getDate("created_at"));
             user.setUpdatedAt(resultSet.getDate("updated_at"));
-            return true;
+            done = true;
         } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.toString());
-        }
-        return false;
+        } 
+    	
+        return done;
     }
 }

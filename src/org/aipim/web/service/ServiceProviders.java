@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
-import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -13,13 +12,10 @@ import org.aipim.web.service.dao.CartManager;
 import org.aipim.web.service.dao.ProductManager;
 import org.aipim.web.service.dao.UserManager;
 import org.aipim.web.service.domain.BaseModel;
-import org.aipim.web.service.domain.Cart;
 import org.aipim.web.service.domain.DefaultModel;
-import org.aipim.web.service.domain.Product;
 import org.aipim.web.service.domain.Request;
 import org.aipim.web.service.domain.User;
 import org.apache.log4j.Logger;
-import org.json.JSONObject;
 
 @Path("/v2")
 public class ServiceProviders {
